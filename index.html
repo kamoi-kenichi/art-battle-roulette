@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ART BATTLE Roulette</title>
+  <style>
+    :root{
+      --bg:#faf8f4;
+      --card:#ffffff;
+      --text:#3a3a3a;
+      --muted:#6b6b6b;
+      --accent:#9a8c98;
+      --accent2:#f5b57a;
+      --border:#e9e2dc;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header{
+      padding: 28px 18px 8px;
+      text-align:center;
+    }
+    header h1{
+      margin:0;
+      font-size: 22px;
+      letter-spacing:.04em;
+    }
+    header p{
+      margin:8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 820px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .card h2{
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+    .slot{
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      padding: 18px 14px;
+      min-height: 74px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .slot.running{
+      outline: 3px solid rgba(154,140,152,.25);
+      background: linear-gradient(180deg, rgba(154,140,152,.08), transparent);
+    }
+    .btns{
+      display:flex;
+      gap:10px;
+      margin-top: 12px;
+    }
+    button{
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .15s ease, border-color .15s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      flex: 1;
+    }
+    button:hover{ transform: translateY(-1px); }
+    button:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+    }
+    .primary{
+      border-color: rgba(154,140,152,.5);
+      background: rgba(154,140,152,.10);
+    }
+    .danger{
+      border-color: rgba(245,181,122,.7);
+      background: rgba(245,181,122,.18);
+    }
+
+    .result{
+      margin-top: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.65);
+    }
+    .result .combo{
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: .03em;
+    }
+    .pill{
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff;
+      white-space: nowrap;
+    }
+
+    .history{
+      margin-top: 16px;
+    }
+    .history h3{
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+    .history ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap: 8px;
+    }
+    .history li{
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      align-items:center;
+    }
+    .history small{ color: var(--muted); }
+    .footerBtns{
+      display:flex;
+      gap:10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .footerBtns button{ flex: unset; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ART BATTLE Roulette</h1>
+    <p>具体 × 抽象を止めて、LIMITS練習テーマを決めよう！</p>
+  </header>
+
+  <main class="wrap">
+    <section class="grid">
+      <!-- 具体 -->
+      <div class="card">
+        <h2>具体（モノ）</h2>
+        <div class="slot" id="slotConcrete">—</div>
+        <div class="btns">
+          <button class="primary" id="startConcrete">START</button>
+          <button class="danger" id="stopConcrete" disabled>STOP</button>
+        </div>
+      </div>
+
+      <!-- 抽象 -->
+      <div class="card">
+        <h2>抽象（テーマ）</h2>
+        <div class="slot" id="slotAbstract">—</div>
+        <div class="btns">
+          <button class="primary" id="startAbstract">START</button>
+          <button class="danger" id="stopAbstract" disabled>STOP</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px;">
+      <h2>結果</h2>
+      <div class="result">
+        <div>
+          <div class="combo" id="combo">—</div>
+          <div style="margin-top:6px;">
+            <span class="pill" id="status">両方STOPで履歴に追加</span>
+          </div>
+        </div>
+        <div class="footerBtns">
+          <button id="startBoth" class="primary">両方START</button>
+          <button id="stopBoth" class="danger" disabled>両方STOP</button>
+          <button id="reroll">シャッフル確定（即決）</button>
+        </div>
+      </div>
+
+      <div class="history">
+        <h3>履歴</h3>
+        <ul id="historyList"></ul>
+        <div class="footerBtns">
+          <button id="clearHistory">履歴を消す</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ▼単語リスト（ここを増やすだけでOK）
+    const concreteWords = [
+      "カニ","ナイフ","犬","鳥居","ろうそく","風船","リンゴ","鍵","時計","鏡",
+      "ヘッドフォン","スーツケース","傘","手紙","階段","電車","バラ","仮面","キャンドル","指輪"
+    ];
+    const abstractWords = [
+      "境界","静寂","選択","喪失","再生","衝動","孤独","祈り","違和感","余韻",
+      "希望","嫉妬","赦し","矛盾","憧れ","運命","緊張","回想","安心","解放"
+    ];
+
+    // ▼状態
+    let timerConcrete = null;
+    let timerAbstract = null;
+    let currentConcrete = null;
+    let currentAbstract = null;
+
+    const elSlotConcrete = document.getElementById("slotConcrete");
+    const elSlotAbstract = document.getElementById("slotAbstract");
+    const elCombo = document.getElementById("combo");
+    const elStatus = document.getElementById("status");
+
+    const btnStartConcrete = document.getElementById("startConcrete");
+    const btnStopConcrete  = document.getElementById("stopConcrete");
+    const btnStartAbstract = document.getElementById("startAbstract");
+    const btnStopAbstract  = document.getElementById("stopAbstract");
+
+    const btnStartBoth = document.getElementById("startBoth");
+    const btnStopBoth  = document.getElementById("stopBoth");
+    const btnReroll    = document.getElementById("reroll");
+
+    const historyKey = "artBattleRouletteHistory_v1";
+    const elHistoryList = document.getElementById("historyList");
+    const btnClearHistory = document.getElementById("clearHistory");
+
+    function pickRandom(list){
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function setRunning(el, running){
+      el.classList.toggle("running", running);
+    }
+
+    function updateCombo(){
+      if(currentConcrete && currentAbstract){
+        elCombo.textContent = `${currentConcrete} × ${currentAbstract}`;
+        elStatus.textContent = "両方確定！履歴に追加しました";
+        addHistory(currentConcrete, currentAbstract);
+      } else {
+        elCombo.textContent = "—";
+        elStatus.textContent = "両方STOPで履歴に追加";
+      }
+    }
+
+    // ▼ルーレット動作（回す）
+    function startConcrete(){
+      if(timerConcrete) return;
+      setRunning(elSlotConcrete, true);
+      btnStartConcrete.disabled = true;
+      btnStopConcrete.disabled = false;
+
+      // 既に確定していたら一旦解除
+      currentConcrete = null;
+      updateStopBothAvailability();
+
+      timerConcrete = setInterval(() => {
+        elSlotConcrete.textContent = pickRandom(concreteWords);
+      }, 80);
+    }
+
+    function stopConcrete(){
+      if(!timerConcrete) return;
+      clearInterval(timerConcrete);
+      timerConcrete = null;
+
+      setRunning(elSlotConcrete, false);
+      btnStartConcrete.disabled = false;
+      btnStopConcrete.disabled = true;
+
+      currentConcrete = elSlotConcrete.textContent;
+      finalizeIfBothStopped();
+    }
+
+    function startAbstract(){
+      if(timerAbstract) return;
+      setRunning(elSlotAbstract, true);
+      btnStartAbstract.disabled = true;
+      btnStopAbstract.disabled = false;
+
+      currentAbstract = null;
+      updateStopBothAvailability();
+
+      timerAbstract = setInterval(() => {
+        elSlotAbstract.textContent = pickRandom(abstractWords);
+      }, 80);
+    }
+
+    function stopAbstract(){
+      if(!timerAbstract) return;
+      clearInterval(timerAbstract);
+      timerAbstract = null;
+
+      setRunning(elSlotAbstract, false);
+      btnStartAbstract.disabled = false;
+      btnStopAbstract.disabled = true;
+
+      currentAbstract = elSlotAbstract.textContent;
+      finalizeIfBothStopped();
+    }
+
+    function finalizeIfBothStopped(){
+      updateStopBothAvailability();
+
+      if(currentConcrete && currentAbstract){
+        updateCombo();
+      } else {
+        elStatus.textContent = "もう片方もSTOPで確定";
+      }
+    }
+
+    function updateStopBothAvailability(){
+      // 両方STOPボタンは「どちらかが回ってる時」に使える
+      const anyRunning = Boolean(timerConcrete || timerAbstract);
+      btnStopBoth.disabled = !anyRunning;
+    }
+
+    // ▼履歴（localStorage）
+    function loadHistory(){
+      try{
+        return JSON.parse(localStorage.getItem(historyKey)) ?? [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveHistory(items){
+      localStorage.setItem(historyKey, JSON.stringify(items));
+    }
+
+    function addHistory(conc, abs){
+      const now = new Date();
+      const stamp = now.toLocaleString("ja-JP", { hour12:false });
+
+      const items = loadHistory();
+      // 直近と完全一致は追加しない（連打対策）
+      if(items[0] && items[0].conc === conc && items[0].abs === abs) return;
+
+      items.unshift({ conc, abs, stamp });
+      // 最大50件
+      saveHistory(items.slice(0, 50));
+      renderHistory();
+    }
+
+    function renderHistory(){
+      const items = loadHistory();
+      elHistoryList.innerHTML = "";
+
+      if(items.length === 0){
+        const li = document.createElement("li");
+        li.innerHTML = `<span>履歴はまだありません</span><small>まずは回してみよう</small>`;
+        elHistoryList.appendChild(li);
+        return;
+      }
+
+      for(const it of items){
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${it.conc} × ${it.abs}</strong><small>${it.stamp}</small>`;
+        elHistoryList.appendChild(li);
+      }
+    }
+
+    // ▼両方操作
+    function startBoth(){
+      startConcrete();
+      startAbstract();
+      btnStopBoth.disabled = false;
+      elStatus.textContent = "回転中…好きなタイミングでSTOP";
+      elCombo.textContent = "—";
+    }
+
+    function stopBoth(){
+      if(timerConcrete) stopConcrete();
+      if(timerAbstract) stopAbstract();
+      updateStopBothAvailability();
+    }
+
+    // ▼即決シャッフル（演出なしで確定したい時）
+    function rerollInstant(){
+      currentConcrete = pickRandom(concreteWords);
+      currentAbstract = pickRandom(abstractWords);
+
+      elSlotConcrete.textContent = currentConcrete;
+      elSlotAbstract.textContent = currentAbstract;
+
+      setRunning(elSlotConcrete, false);
+      setRunning(elSlotAbstract, false);
+
+      // ボタン状態を「止まってる状態」に
+      if(timerConcrete){ clearInterval(timerConcrete); timerConcrete = null; }
+      if(timerAbstract){ clearInterval(timerAbstract); timerAbstract = null; }
+      btnStartConcrete.disabled = false;
+      btnStopConcrete.disabled = true;
+      btnStartAbstract.disabled = false;
+      btnStopAbstract.disabled = true;
+      btnStopBoth.disabled = true;
+
+      updateCombo();
+    }
+
+    // ▼イベント
+    btnStartConcrete.addEventListener("click", startConcrete);
+    btnStopConcrete.addEventListener("click", stopConcrete);
+    btnStartAbstract.addEventListener("click", startAbstract);
+    btnStopAbstract.addEventListener("click", stopAbstract);
+
+    btnStartBoth.addEventListener("click", startBoth);
+    btnStopBoth.addEventListener("click", stopBoth);
+    btnReroll.addEventListener("click", rerollInstant);
+
+    btnClearHistory.addEventListener("click", () => {
+      localStorage.removeItem(historyKey);
+      renderHistory();
+      elStatus.textContent = "履歴を消しました";
+    });
+
+    // 初期表示
+    renderHistory();
+    updateStopBothAvailability();
+  </script>
+</body>
+</html>
