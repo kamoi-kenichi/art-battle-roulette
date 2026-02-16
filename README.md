@@ -4,7 +4,7 @@ LIMITS ART BATTLE 練習用テーマルーレット
 ---
 
 ## 🔗 Demo
-https://intp.site/2905/Portfolio/art-battle-roulette
+https://intp.site/2905/art-battle-roulette
 
 ---
 
