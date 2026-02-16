@@ -1,0 +1,332 @@
+@charset "UTF-8";
+
+:root {
+      --bg: #faf8f4;
+      --card: #fafafa;
+      --text: #3a3a3a;
+      --muted: #6b6b6b;
+      --accent: #9a8c98;
+      --accent2: #f5b57a;
+      --border: #e9e2dc;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 28px 18px 8px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: .04em;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 820px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+
+    .slot {
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      padding: 18px 14px;
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .slot.running {
+      outline: 3px solid rgba(154, 140, 152, .25);
+      background: linear-gradient(180deg, rgba(154, 140, 152, .08), transparent);
+    }
+
+    .btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .08s ease, box-shadow .15s ease, border-color .15s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+      flex: 1;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .primary {
+      border-color: rgba(154, 140, 152, .5);
+      background: rgba(154, 140, 152, .10);
+    }
+
+    .danger {
+      border-color: rgba(245, 181, 122, .7);
+      background: rgba(245, 181, 122, .18);
+    }
+
+    .result {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .65);
+    }
+
+    .result .combo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: .03em;
+    }
+
+    .pill {
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff;
+      white-space: nowrap;
+    }
+
+    .history {
+      margin-top: 16px;
+    }
+
+    .history h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+
+    .history ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .history li {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .history small {
+      color: var(--muted);
+    }
+
+    .footerBtns {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footerBtns button {
+      flex: unset;
+    }
+
+    .dogMark {
+      color: var(--accent);
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .7);
+    }
+
+    header {
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(154, 140, 152, .05) 0 1px, transparent 1px 24px);
+      opacity: .35;
+    }
+
+    .dogMark svg {
+      transform: scale(1.4);
+    }
+
+    .timerBar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .72);
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .timerLeft {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .timerLabel {
+      font-size: 12px;
+      letter-spacing: .10em;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .timerTime {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+
+    .timerSub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .timerBtns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .timerBtns button {
+      flex: unset;
+      padding: 10px 12px;
+    }
+
+    @keyframes softBounce {
+      0% {
+        transform: scale(1);
+      }
+
+      35% {
+        transform: scale(0.96);
+      }
+
+      70% {
+        transform: scale(1.02);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .bounce {
+      animation: softBounce 220ms ease-out;
+    }
+
+    .timerWarn .timerTime {
+      text-shadow: 0 0 10px rgba(245, 181, 122, .25);
+    }
+
+    @keyframes dogHappy {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+
+      25% {
+        transform: translateY(-6px) rotate(-6deg) scale(1.05);
+      }
+
+      55% {
+        transform: translateY(-10px) rotate(8deg) scale(1.08);
+      }
+
+      80% {
+        transform: translateY(-4px) rotate(-4deg) scale(1.03);
+      }
+
+      100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+    }
+
+    .dogHappy {
+      animation: dogHappy 0.9s ease-out;
+    }
