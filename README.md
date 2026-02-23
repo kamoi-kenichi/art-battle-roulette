@@ -4,7 +4,7 @@ LIMITS ART BATTLE 練習用テーマルーレット
 ---
 
 ## 🔗 Demo
-https://intp.site/2905/art-battle-roulette
+https://kenichikamoi.com/apps/tool/art-battle-roulette
 
 ---
 
@@ -135,16 +135,6 @@ UIは自身のポートフォリオテーマでもある
 
 ---
 
-## 📁 File Structure
-
-index.html
-README.md
-
-1ファイル完結構成とし、  
-GitHub Pages 等でも即公開可能な構造にしています。
-
----
-
 ## 🎯 Purpose
 
 本作品は以下のスキルを示すことを目的としています。
@@ -173,7 +163,7 @@ Kenichi Kamoi
 Web Creator / Designer
 
 Portfolio:  
-https://intp.site/2905/Portfolio/
+https://kenichikamoi.com
 
 ---
 
